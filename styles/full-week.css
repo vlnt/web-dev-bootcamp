@@ -1,0 +1,43 @@
+h1 {
+  font-size: 48px;
+  margin: 12px;
+  color: rgb(71, 62, 62);
+}
+#description{
+  margin-bottom: 12px;
+}
+ol {
+  list-style: none;
+  width: 500px;
+  margin: 36px auto 0 auto;
+  padding: 0;
+}
+.btn{
+  background-color: rgb(167, 10, 80);
+  color: white;
+  border-radius: 8px;
+  font-size: 24px;
+  padding: 5px 10px 5px 10px;
+  margin: 0;
+}
+.btn:hover {
+  background-color: rgb(180, 10, 40);
+  text-decoration: none;
+}
+ li {
+   padding: 16px;
+  margin:32px;
+  background-color: rgb(223, 136, 124);
+  border-radius: 6px;
+} 
+h2{
+  color: rgb(78, 13, 5);
+  font-family: "Oswald" sans-serif;
+}
+main p{
+  margin: 12px;
+  color: rgb(71, 29, 22);
+}
+.highlight-goal{
+  background-color: rgb(226, 115, 101);
+}
