@@ -1,16 +1,5 @@
 
-header {
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: space-between;
-  }
-  header ul{
-    display: flex;
-    justify-content: flex-end;
-  }
+
   #hero{
       height: 800px;
       background-image: url("/images/places/ocean.jpg");
@@ -55,4 +44,43 @@ header {
 }
 #hero-content a:hover{
     background-color: rgb(255, 230, 0) ;
+}
+#highlights{
+    padding:24px;
+    background: linear-gradient(180deg, rgb(227, 255,253), rgb(67, 148, 143));
+}
+
+#highlights h2{
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 40px;
+  color: rgb(59, 63, 64);
+  margin: 24px 0;
+}
+
+#destinations{
+    display: flex;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 40px;
+    justify-content: center;
+}
+.destination{
+    margin: 0 20px;
+}
+.destination p{
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: rgb(124, 123, 123);
+}
+.destination img{
+    height: 200px;
+    width: 100%;
+    box-shadow: 2px 4px 8 rgb(68, 67, 67);
+    border-radius: 10px;
+    object-fit: cover;
+}
+.destination strong{
+    color: rgb(0, 160, 117);
 }
