@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@1,700&family=Roboto:ital,wght@1,500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="forms.css" />
+    <title>HTML Forms</title>
+  </head>
+  <body>
+      <main>
+          <h1>Demo form</h1>
+        <form action="users/data" method="GET">
+            <section>
+              <h2>Your personal details</h2>
+              <label for="user-name">Your name:</label>
+              <input type="text" name="name" id="user-name" required placeholder="Valentyn Mirosh" />
+              <label for="user-email">Your email address:</label>
+              <input type="email" name="email" id="user-email" alt="email" required/>
+              <label for="user-passwd">Your password:</label>
+              <input type="password" name="passwd" id="user-passwd" required minlength="8"/>
+            </section>
+            <sectio>
+              <section>
+                  <h2>More details</h2>
+                <label for="user-birthday">Your birthday</label>
+                <input type="date" name="birthday" id="user-birthday" />
+                <label for="favorite-color">Your favorite color</label>
+                <select id="favorite-color" name="colors">
+                  <option>Red</option>
+                  <option>Blue</option>
+                  <option>Green</option>
+                </select>
+            </section>
+            <section>
+                <h2>Yuor message</h2>
+              <label for="user-msg">Your message:</label>
+              <textarea id="user-msg" rows="8" cols="30" placeholder="Tell something about you..."></textarea>
+            </section>
+            <section>
+              <h2>How should we verify yuor account?</h2>
+              <ul>
+                  <li class="form-control-inline">
+                      <input type="radio" name="verify" id="verify-text-msg" />
+                      <label id="verify-text-msg">Via text message(SMS)</label>
+                  </li>
+                    <li class="form-control-inline">
+                      <input type="radio" name="verify" id="verify-phone" />
+                      <label for="verify-phone">Via a phone call</label>
+                    </li>
+                    <li class="form-control-inline">
+                      <input type="radio" name="verify" id="verify-email" />
+                      <label for="verify-email">Via email</label>
+                    </li>
+              </ul>
+             
+            </section>
+            <section>
+                <h2>How should we contact you?</h2>
+                <ul>
+                  <li class="form-control-inline">
+                      <input
+                        type="checkbox"
+                        name="contact"
+                        id="contact-email"
+                        value="email"
+                      />
+                      <label for="contact-email">Contact me via email</label>
+                  </li>
+                    <li class="form-control-inline">
+                      <input
+                        type="checkbox"
+                        name="contact"
+                        id="contact-phone"
+                        value="phone"
+                      />
+                      <label for="contact-phone">Contact me via phone</label>
+                    </li>
+                </ul>
+              
+            </section>
+      
+           
+            
+      
+           <section>
+              <div class="form-control-inline">
+                  <input type="checkbox" name="terms" id="agree-terms" />
+                  <label for="agree-terms">Agree to terms?</label>
+                </div>
+           </section>
+            
+           
+          <section>
+                <button>Submit</button>
+                <button type="reset">Clear</button>
+          </section>
+            
+          </form>
+      </main>
+    
+  </body>
+</html>
