@@ -2,50 +2,60 @@ const express = require("express")
 const fs = require('fs')
 const path = require('path')
 
-function logger_v(req, res, next){
-    res.append('served-by', 'SenoBo-node16')
-    console.log(req.method, req.url)
-    next()
-}
+
 
 const app = express()
-app.use(express.static('./playground/build'))
-app.use('/responsive', express.static('./webfood'))
-app.use('/eatwell', express.static('./eatwell'))
+
+
+app.set('x-powered-by', false)
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
+
+app.use(express.static('public'))
 app.use(express.urlencoded({extended:false}))
-app.use(logger_v)
 
-
-app.get('/currenttime', function(req, res){
-    res.send(`<h2>Hello from SenoBo </h2>Current time is: ${new Date().toISOString()}</div>`)
+app.all('/*', function(req, res, next){
+    res.header('Engine', 'SenoBo')
+    next()
 })
-app.get('/name', function(req, res){
-    res.send(`<h2>Hello from Express! </h2> <div>Happy coding!</div>
-              <form action = '/store-user' method = 'POST'><label>Your name</label><input type='text'  name = 'username'/><button>Submit</button></form>`)
+app.get('/', function(rqe, res){
+    // const indexHtml = path.join(__dirname, 'views', 'index.html')
+    // res.sendFile(indexHtml)
+    res.render('index')
 })
 
-app.get('/users', function(req,res){
-    const filePath = path.join(__dirname, 'data', 'users.json')
+app.get('/about', function(rqe, res){
+    res.render('about')
+})
+
+app.get('/confirm', function(req, res){
+    const confirmHtml = path.join(__dirname, 'views', 'confirm.html')
+    res.sendFile(confirmHtml)
+  })
+
+app.get('/recommend', function(req, res){
+    const recommendHtml = path.join(__dirname, 'views', 'recommend.html')
+    res.sendFile(recommendHtml)
+})
+
+app.post('/recommend', function(req, res){
+       const restaurant = req.body
+       const filePath = path.join(__dirname, 'data', 'restaurants.json')
+       const fileData = fs.readFileSync(filePath)
+       const storedRestaurants = JSON.parse(fileData)
+       storedRestaurants.push(restaurant)
+       fs.writeFileSync(filePath, JSON.stringify(storedRestaurants))
+
+       res.redirect('/confirm')
+  })
+  
+  app.get('/restaurants', function(req, res){
+    const filePath = path.join(__dirname, 'data', 'restaurants.json')
     const fileData = fs.readFileSync(filePath)
-    const existingUsers = JSON.parse(fileData)
-    let responseData = '<ul>'
-    for(const user of existingUsers){
-        responseData += `<li>${user}</li>`
-    }
-    responseData += '</ul>'
-    res.send(responseData)
-})
-
-app.post('/store-user', function(req, res){
-    const userName = req.body.username
-    //console.log(userName)
-    const filePath = path.join(__dirname, 'data', 'users.json')
-    const fileData = fs.readFileSync(filePath)
-    const existingUsers = JSON.parse(fileData)
-    existingUsers.push(userName)
-    fs.writeFileSync(filePath, JSON.stringify(existingUsers))
-    res.send('<h2>Username stored!</h2>')
-})
+    const storedRestaurants = JSON.parse(fileData)
+    res.render('restaurants', { numberOfRestaurants: storedRestaurants.length, restaurants: storedRestaurants })
+  })
+  
 
 app.listen(4003, ()=>{
     console.log('listening on port 4003')
