@@ -1,6 +1,7 @@
 const express = require("express")
 const fs = require('fs')
 const path = require('path')
+const uuid = require('uuid')
 
 
 
@@ -18,6 +19,7 @@ app.all('/*', function(req, res, next){
     res.header('Engine', 'SenoBo')
     next()
 })
+
 app.get('/', function(rqe, res){
     // const indexHtml = path.join(__dirname, 'views', 'index.html')
     // res.sendFile(indexHtml)
@@ -29,17 +31,16 @@ app.get('/about', function(rqe, res){
 })
 
 app.get('/confirm', function(req, res){
-    const confirmHtml = path.join(__dirname, 'views', 'confirm.html')
-    res.sendFile(confirmHtml)
+    res.render('confirm')
   })
 
 app.get('/recommend', function(req, res){
-    const recommendHtml = path.join(__dirname, 'views', 'recommend.html')
-    res.sendFile(recommendHtml)
+    res.render('recommend')
 })
 
 app.post('/recommend', function(req, res){
        const restaurant = req.body
+       restaurant.id = uuid.v4()
        const filePath = path.join(__dirname, 'data', 'restaurants.json')
        const fileData = fs.readFileSync(filePath)
        const storedRestaurants = JSON.parse(fileData)
@@ -54,6 +55,11 @@ app.post('/recommend', function(req, res){
     const fileData = fs.readFileSync(filePath)
     const storedRestaurants = JSON.parse(fileData)
     res.render('restaurants', { numberOfRestaurants: storedRestaurants.length, restaurants: storedRestaurants })
+  })
+
+  app.get('/restaurants/:id', function(req, res){
+      const restaurantId = req.params.id
+      res.render('restaurant-detail', {rid: restaurantId})
   })
   
 
