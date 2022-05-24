@@ -2,9 +2,8 @@ const express = require("express")
 const fs = require('fs')
 const path = require('path')
 const uuid = require('uuid')
-
-
-
+const defaultRoutes = require('./routes/default')
+const restaurantRoutes = require('./routes/restaurants')
 const app = express()
 
 
@@ -15,60 +14,9 @@ app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use(express.urlencoded({extended:false}))
 
-app.all('/*', function(req, res, next){
-    res.header('Engine', 'SenoBo')
-    next()
-})
+app.use('/', defaultRoutes)
+app.use('/', restaurantRoutes)
 
-app.get('/', function(rqe, res){
-    // const indexHtml = path.join(__dirname, 'views', 'index.html')
-    // res.sendFile(indexHtml)
-    res.render('index')
-})
-
-app.get('/about', function(rqe, res){
-    res.render('about')
-})
-
-app.get('/confirm', function(req, res){
-    res.render('confirm')
-  })
-
-app.get('/recommend', function(req, res){
-    res.render('recommend')
-})
-
-app.post('/recommend', function(req, res){
-       const restaurant = req.body
-       restaurant.id = uuid.v4()
-       const filePath = path.join(__dirname, 'data', 'restaurants.json')
-       const fileData = fs.readFileSync(filePath)
-       const storedRestaurants = JSON.parse(fileData)
-       storedRestaurants.push(restaurant)
-       fs.writeFileSync(filePath, JSON.stringify(storedRestaurants))
-
-       res.redirect('/confirm')
-  })
-  
-  app.get('/restaurants', function(req, res){
-    const filePath = path.join(__dirname, 'data', 'restaurants.json')
-    const fileData = fs.readFileSync(filePath)
-    const storedRestaurants = JSON.parse(fileData)
-    res.render('restaurants', { numberOfRestaurants: storedRestaurants.length, restaurants: storedRestaurants })
-  })
-
-  app.get('/restaurants/:id', function(req, res){
-      const restaurantId = req.params.id
-      const filePath = path.join(__dirname, 'data', 'restaurants.json')
-      const fileData = fs.readFileSync(filePath)
-      const storedRestaurants = JSON.parse(fileData)
-      for(const restaurant of storedRestaurants){
-          if(restaurant.id === restaurantId){
-            return res.render('restaurant-detail', {restaurant: restaurant})
-          }
-      }
-      res.status(404).render('404')
-  })
 
   app.use(function(req, res){
       res.status(404).render('404')
