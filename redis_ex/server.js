@@ -6,42 +6,25 @@ const Redis = require('redis')
 const redisClient = Redis.createClient()
 redisClient.connect()
 
-const DEFAULT_EXPIRATION = 3600
+const DEFAULT_EXPIRATION = 120
 
 const app = express()
 app.use(cors())
 
 app.get("/photos", async (req, res) => {
-   // try{
+    const albumId = req.query.albumId
         console.log('getting photos')
-        const photos = await redisClient.get("photos")
+        const photos = await redisClient.get(`photos?albumId=${albumId}`)
         if(photos != null){
-            res.json(photos)
+            res.json(JSON.parse(photos))
         } else {
-            const {data} = await axios.get("https://jsonplaceholder.typicode.com/photos")
-                           redisClient.setEx('photos', DEFAULT_EXPIRATION, JSON.stringify(data) )
+            const {data} = await axios.get("https://jsonplaceholder.typicode.com/photos", {params:{albumId}})
+                           redisClient.setEx(`photos?albumId=${albumId}`, DEFAULT_EXPIRATION, JSON.stringify(data) )
                            res.json(data)
                         }
         }
 )      
         
-    //     redisClient.get("photos", async (error, photos) => {
-    //         if(error) console.log(error)
-    //         if (photos != null){
-    //              res.json(JSON.parse(photos))
-    //         } else {
-    //             const {data} = await axios.get(
-    //                 "https://jsonplaceholder.typicode.com/photos"
-    //             )
-    //             redisClient.setEx('photos', DEFAULT_EXPIRATION, JSON.stringify(data) )
-    //         }
-    //         res.json(data)
-    //     })
-    // }catch(error){
-    //     res.status(500).send({error:error.message})
-    // }
-    
-//})
 
 app.get("/photos/:id", async (req, res) => {
     const {data} = await axios.get(
